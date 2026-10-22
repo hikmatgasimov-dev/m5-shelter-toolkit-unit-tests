@@ -8,7 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-
+import lv.bootcamp.shelter.model.Animal;
+import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,8 +97,7 @@ class AnimalValidatorTest {
 
             assertThat(ex.getMessage()).contains("Species must not be blank");
         }
-    
-}
+    }
 
 @Nested
 @DisplayName("validateAge")
@@ -112,7 +112,8 @@ class ValidateAge {
     })
     @DisplayName("accepts valid ages")
     void shouldAcceptValidAges(int age) {
-        // TODO: Call validator.validateAge(age) — it should NOT throw
+
+        assertDoesNotThrow(() -> validator.validateAge(age));
     }
 
     @ParameterizedTest
@@ -124,10 +125,40 @@ class ValidateAge {
     })
     @DisplayName("rejects invalid ages with correct message")
     void shouldRejectInvalidAges(int age, String expectedMessagePart) {
-        // TODO: Verify that validateAge(age) throws IllegalArgumentException
-        // TODO: Check that the exception message contains expectedMessagePart
+
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> validator.validateAge(age)
+        );
+        assertThat(ex.getMessage()).contains(expectedMessagePart);
+
     }
 }
+    @Nested
+    @DisplayName("validate (one rule broken at a time)")
+    class ValidateInvalidInput {
+
+        @ParameterizedTest
+        @CsvSource({
+                "'', Dog, 3, Name must not be blank",
+                "Buddy, '', 3, Species must not be blank",
+                "Buddy, Dog, -1, Age must not be negative"
+        })
+        @DisplayName("rejects an animal when one field is invalid")
+        void shouldRejectInvalidInput(String name, String species, int age, String expectedMessage) {
+            Animal animal = new Animal(name, species, age, true, LocalDate.of(2026, 1, 15));
+
+            IllegalArgumentException ex = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> validator.validate(animal)
+            );
+
+            assertThat(ex.getMessage()).contains(expectedMessage);
+        }
+    }
+
+}
+
 
 // ==================== Task 3: Exception tests ====================
 
@@ -170,5 +201,5 @@ class ValidateFullAnimal {
         // TODO: Create a valid Animal (name="Buddy", species="Dog", age=3, vaccinated=true, date=today)
         // TODO: Call validate() and verify no exception is thrown
     }
-}
+
 }
