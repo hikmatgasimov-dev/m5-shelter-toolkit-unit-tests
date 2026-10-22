@@ -9,6 +9,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Tasks 2 & 3: Parameterized tests and exception tests
  *
@@ -41,8 +45,8 @@ class AnimalValidatorTest {
         @ValueSource(strings = {"Buddy", "Luna", "Mr. Whiskers", "X"})
         @DisplayName("accepts valid names")
         void shouldAcceptValidNames(String name) {
-            // TODO: Call validator.validateName(name) — it should NOT throw
-            // Hint: use assertDoesNotThrow(() -> validator.validateName(name))
+
+          assertDoesNotThrow(()->validator.validateName(name));
         }
 
         @ParameterizedTest
@@ -50,8 +54,10 @@ class AnimalValidatorTest {
         @ValueSource(strings = {"   ", "\t", "\n"})
         @DisplayName("rejects blank or null names")
         void shouldRejectBlankNames(String name) {
-            // TODO: Verify that validateName throws IllegalArgumentException
-            // TODO: Check the message contains "must not be blank"
+          IllegalArgumentException ex=assertThrows(IllegalArgumentException.class,
+                  ()->validator.validateName(name));
+
+          assertThat(ex.getMessage()),ex.getMessage().contains("must not be blank"))
         }
 
         @Test
