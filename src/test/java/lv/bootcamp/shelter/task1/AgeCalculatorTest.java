@@ -121,6 +121,6 @@ class AgeCalculatorTest {
     @DisplayName("isBaby: age 1 returns false")
     void shouldReturnFalseForAgeOne() {
 
-        assertTrue(calculator.isBaby(1));
+        assertFalse(calculator.isBaby(1));
     }
 }
