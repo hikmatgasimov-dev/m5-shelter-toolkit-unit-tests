@@ -8,19 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Task 1: Pure logic tests
- *
- * Practice:
- * - Arrange-Act-Assert pattern
- * - Good test naming
- * - assertEquals for return values
- * - assertThrows for invalid input
- *
- * Instructions:
- * Write tests for AgeCalculator. Each TODO describes one test to write.
- * Remove the TODO comments as you implement each test.
- */
+
 @DisplayName("AgeCalculator")
 class AgeCalculatorTest {
 
