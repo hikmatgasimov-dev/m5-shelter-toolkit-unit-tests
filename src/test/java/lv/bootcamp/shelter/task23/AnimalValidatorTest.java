@@ -15,18 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/**
- * Tasks 2 & 3: Parameterized tests and exception tests
- * <p>
- * Practice:
- * - @ParameterizedTest with @CsvSource
- * - @ValueSource and @NullAndEmptySource
- * - assertThrows with message checks
- * - AssertJ assertThatThrownBy
- * <p>
- * Instructions:
- * Write tests for AnimalValidator. Each TODO describes one test to write.
- */
 @DisplayName("AnimalValidator")
 class AnimalValidatorTest {
 
