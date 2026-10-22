@@ -78,31 +78,35 @@ class AgeCalculatorTest {
     @Test
     @DisplayName("dogToHumanYears: age 0 returns 0")
     void shouldReturnZeroHumanYearsForPuppy() {
-        // TODO: Test that dogToHumanYears(0) returns 0
+      assertEquals(0,calculator.dogToHumanYears(0));
     }
 
     @Test
     @DisplayName("dogToHumanYears: age 1 returns 15")
     void shouldReturnFifteenForOneYearOldDog() {
-        // TODO: Test that dogToHumanYears(1) returns 15
+        assertEquals(15,calculator.dogToHumanYears(1));
     }
 
     @Test
     @DisplayName("dogToHumanYears: age 2 returns 24")
     void shouldReturnTwentyFourForTwoYearOldDog() {
-        // TODO: Test that dogToHumanYears(2) returns 24
+        assertEquals(24,calculator.dogToHumanYears(2));
     }
 
     @Test
     @DisplayName("dogToHumanYears: age 5 returns 39")
     void shouldCalculateCorrectlyForOlderDog() {
-        // TODO: Test that dogToHumanYears(5) returns 24 + (5-2)*5 = 39
+        assertEquals(39,calculator.dogToHumanYears(5));
     }
 
     @Test
     @DisplayName("dogToHumanYears: negative age throws IllegalArgumentException")
     void shouldThrowForNegativeDogAge() {
-        // TODO: Use assertThrows for negative input
+     IllegalArgumentException exception=assertThrows(
+             IllegalArgumentException.class,
+             ()->calculator.dogToHumanYears(-1)
+     );
+     assertTrue(exception.getMessage().contains("negative"));
     }
 
     // --- isBaby() ---
@@ -110,12 +114,13 @@ class AgeCalculatorTest {
     @Test
     @DisplayName("isBaby: age 0 returns true")
     void shouldReturnTrueForAgZero() {
-        // TODO: Test that isBaby(0) returns true
+     assertTrue(calculator.isBaby(0));
     }
 
     @Test
     @DisplayName("isBaby: age 1 returns false")
     void shouldReturnFalseForAgeOne() {
-        // TODO: Test that isBaby(1) returns false
+
+        assertTrue(calculator.isBaby(1));
     }
 }
