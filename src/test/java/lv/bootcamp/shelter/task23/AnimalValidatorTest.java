@@ -158,9 +158,6 @@ class ValidateAge {
         }
     }
 
-}
-
-
 // ==================== Task 3: Exception tests ====================
 
 @Nested
@@ -171,7 +168,7 @@ class ValidateFullAnimal {
     @DisplayName("throws NullPointerException for null animal")
     void shouldThrowForNullAnimal() {
 
-        assertThatThrownBy(()->validator.validate(null))
+        assertThatThrownBy(() -> validator.validate(null))
                 .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("must not be null");
     }
@@ -179,9 +176,8 @@ class ValidateFullAnimal {
     @Test
     @DisplayName("throws for animal with blank name")
     void shouldThrowForBlankName() {
-        // TODO: Create an Animal with blank name
-        // TODO: Verify validate() throws IllegalArgumentException
-        Animal animal=new Animal(" ","Dog",3,true,LocalDate.of(2026,1,15));
+
+        Animal animal = new Animal(" ", "Dog", 3, true, LocalDate.of(2026, 1, 15));
 
         assertThatThrownBy(() -> validator.validate(animal))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -193,7 +189,7 @@ class ValidateFullAnimal {
     @DisplayName("throws for animal with blank species")
     void shouldThrowForBlankSpecies() {
 
-        Animal animal=new Animal("Buddy"," ",3,true,LocalDate.of(2026,1,15));
+        Animal animal = new Animal("Buddy", " ", 3, true, LocalDate.of(2026, 1, 15));
 
         assertThatThrownBy(() -> validator.validate(animal))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -203,15 +199,21 @@ class ValidateFullAnimal {
     @Test
     @DisplayName("throws for animal with negative age")
     void shouldThrowForNegativeAge() {
-        // TODO: Create an Animal with negative age
-        // TODO: Verify validate() throws IllegalArgumentException
+
+        Animal animal = new Animal("Buddy", "Dog", -1, true, LocalDate.of(2026, 1, 15));
+        assertThatThrownBy(() -> validator.validate(animal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Age must not be negative");
+
     }
 
     @Test
     @DisplayName("does not throw for fully valid animal")
     void shouldPassForValidAnimal() {
-        // TODO: Create a valid Animal (name="Buddy", species="Dog", age=3, vaccinated=true, date=today)
-        // TODO: Call validate() and verify no exception is thrown
-    }
 
+        Animal animal = new Animal("Buddy", "Dog", 3, true, LocalDate.now());
+
+        assertDoesNotThrow(() -> validator.validate(animal));
+    }
+}
 }
