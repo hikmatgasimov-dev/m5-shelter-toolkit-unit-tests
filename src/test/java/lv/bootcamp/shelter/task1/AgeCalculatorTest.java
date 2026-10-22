@@ -36,24 +36,43 @@ class AgeCalculatorTest {
     @Test
     @DisplayName("toMonths: 0 years returns 0 months")
     void shouldReturnZeroMonthsForZeroYears() {
-        // TODO: Arrange — nothing extra needed (calculator is set up in @BeforeEach)
-        // TODO: Act — call calculator.toMonths(0)
-        // TODO: Assert — assertEquals(0, result)
+        int result=calculator.toMonths(0);
+
+        assertEquals(0,result);
     }
 
     @Test
     @DisplayName("toMonths: positive years returns correct months")
     void shouldConvertPositiveYearsToMonths() {
-        // TODO: Test that 3 years = 36 months
+        int result=calculator.toMonths(3);
+
+        assertEquals(36,result);
     }
 
     @Test
     @DisplayName("toMonths: negative years throws IllegalArgumentException")
     void shouldThrowForNegativeYears() {
-        // TODO: Use assertThrows to verify that toMonths(-1) throws IllegalArgumentException
-        // TODO: Optionally check the exception message contains "negative"
-    }
+       IllegalArgumentException exception=assertThrows(IllegalArgumentException.class,()->calculator.toMonths(-1));
 
+       assertTrue(exception.getMessage().contains("negative"));
+    }
+    @ParameterizedTest
+    @CsvSource({
+            "1, 12",
+            "10, 120",
+            "100, 1200",
+            "1000, 12000"
+    })
+    @DisplayName("toMonths: multiples years by 12,including large values")
+    void shouldMultiplyYearsByTwelve(int years,int expectedMonths){
+        assertEquals(expectedMonths,calculator.toMonths(years));
+    }
+    @Test
+    @DisplayName("toMonths: largest value that still fits in an int")
+    void shouldShouldConvertLargestYearsThatFitInInt(){
+        int result=calculator.toMonths(178_956_970);
+        assertEquals(2_147_483_640, result);
+    }
     // --- dogToHumanYears() ---
 
     @Test
