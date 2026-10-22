@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tasks 2 & 3: Parameterized tests and exception tests
@@ -169,9 +170,10 @@ class ValidateFullAnimal {
     @Test
     @DisplayName("throws NullPointerException for null animal")
     void shouldThrowForNullAnimal() {
-        // TODO: Call validator.validate(null)
-        // TODO: Verify it throws NullPointerException
-        // TODO: Check message contains "must not be null"
+
+        assertThatThrownBy(()->validator.validate(null))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessageContaining("must not be null");
     }
 
     @Test
@@ -179,13 +181,23 @@ class ValidateFullAnimal {
     void shouldThrowForBlankName() {
         // TODO: Create an Animal with blank name
         // TODO: Verify validate() throws IllegalArgumentException
+        Animal animal=new Animal(" ","Dog",3,true,LocalDate.of(2026,1,15));
+
+        assertThatThrownBy(() -> validator.validate(animal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Name must not be blank");
     }
+
 
     @Test
     @DisplayName("throws for animal with blank species")
     void shouldThrowForBlankSpecies() {
-        // TODO: Create an Animal with valid name but blank species
-        // TODO: Verify validate() throws IllegalArgumentException
+
+        Animal animal=new Animal("Buddy"," ",3,true,LocalDate.of(2026,1,15));
+
+        assertThatThrownBy(() -> validator.validate(animal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Species must not be blank");
     }
 
     @Test
