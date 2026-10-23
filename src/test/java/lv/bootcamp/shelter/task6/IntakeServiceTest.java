@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -105,30 +106,34 @@ class IntakeServiceTest {
 
     @Nested
     @DisplayName("findBySpecies")
-    class FindBySpecies {
+    class FindBySpeciesTests {
 
         @Test
         @DisplayName("returns list from repository for valid species")
         void shouldReturnAnimalsForValidSpecies() {
-            // TODO: Stub repository.findBySpecies("Dog") to return List.of(buddy)
-            // TODO: Call service.findBySpecies("Dog")
-            // TODO: Assert result has size 1 and contains buddy
+            when(repository.findBySpecies("Dog")).thenReturn(List.of(buddy));
+
+            List<Animal> result = service.findBySpecies("Dog");
+
+            assertThat(result).hasSize(1).contains(buddy);
         }
 
         @Test
         @DisplayName("returns empty list for blank species without calling repository")
         void shouldReturnEmptyForBlankSpecies() {
-            // TODO: Call service.findBySpecies("")
-            // TODO: Assert result is empty
-            // TODO: Verify repository.findBySpecies(any()) was NEVER called
+            List<Animal> result = service.findBySpecies("");
+
+            assertThat(result).isEmpty();
+            verify(repository, never()).findBySpecies(any());
         }
 
         @Test
         @DisplayName("returns empty list for null species without calling repository")
         void shouldReturnEmptyForNullSpecies() {
-            // TODO: Call service.findBySpecies(null)
-            // TODO: Assert result is empty
-            // TODO: Verify repository.findBySpecies(any()) was NEVER called
+            List<Animal> result = service.findBySpecies(null);
+
+            assertThat(result).isEmpty();
+            verify(repository, never()).findBySpecies(any());
         }
     }
 
