@@ -6,19 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Task 4: Collection and sorting tests
- *
- * Practice:
- * - AssertJ list assertions (extracting, containsExactly)
- * - Testing sort order
- * - Testing null/empty input handling
- *
- * Instructions:
- * Write tests for AnimalSorter. Use AssertJ's extracting() and containsExactly()
- * to verify the order of results.
- */
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DisplayName("AnimalSorter")
 class AnimalSorterTest {
 
@@ -51,21 +43,29 @@ class AnimalSorterTest {
     @Test
     @DisplayName("sortByAge: returns empty list for null input")
     void shouldReturnEmptyForNullInput() {
-        // TODO: Call sorter.sortByAge(null)
-        // TODO: Assert result is empty
+        List<Animal> result = sorter.sortByAge(null);
+
+        assertThat(result).isEmpty();
     }
 
     @Test
     @DisplayName("sortByAge: returns empty list for empty input")
     void shouldReturnEmptyForEmptyInput() {
-        // TODO: Call sorter.sortByAge(List.of())
-        // TODO: Assert result is empty
+        List<Animal> result = sorter.sortByAge(List.of());
+
+        assertThat(result).isEmpty();
     }
 
     @Test
     @DisplayName("sortByAge: does not modify the original list")
     void shouldNotModifyOriginalList() {
-        // TODO: Create a list, sort it, then verify the original list order is unchanged
+        List<Animal> original = new ArrayList<>(List.of(buddy, luna, max, bella));
+
+        sorter.sortByAge(original);
+
+        assertThat(original)
+                .extracting(Animal::getName)
+                .containsExactly("Buddy", "Luna", "Max", "Bella");
     }
 
     // --- sortByName ---
