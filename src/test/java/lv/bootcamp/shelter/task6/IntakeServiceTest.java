@@ -34,7 +34,7 @@ class IntakeServiceTest {
 
     @Nested
     @DisplayName("intake")
-    class Intake {
+    class IntakeTests {
 
         @Test
         @DisplayName("saves valid animal and returns it")
@@ -70,7 +70,7 @@ class IntakeServiceTest {
 
     @Nested
     @DisplayName("findByName")
-    class FindByName {
+    class FindByNameTests {
 
         @Test
         @DisplayName("returns animal when repository finds it")
@@ -141,22 +141,28 @@ class IntakeServiceTest {
 
     @Nested
     @DisplayName("count")
-    class Count {
+    class CountTests {
 
         @Test
         @DisplayName("returns the size of all animals from repository")
         void shouldReturnCountFromRepository() {
-            // TODO: Stub repository.findAll() to return a list of 3 animals
-            // TODO: Call service.count()
-            // TODO: Assert result equals 3
+            Animal luna = new Animal("Luna", "Cat", 2, true, LocalDate.of(2026, 1, 16));
+            Animal max = new Animal("Max", "Dog", 5, false, LocalDate.of(2026, 1, 18));
+            when(repository.findAll()).thenReturn(List.of(buddy, luna, max));
+
+            int result = service.count();
+
+            assertThat(result).isEqualTo(3);
         }
 
         @Test
         @DisplayName("returns 0 when repository is empty")
         void shouldReturnZeroWhenEmpty() {
-            // TODO: Stub repository.findAll() to return List.of()
-            // TODO: Call service.count()
-            // TODO: Assert result equals 0
+            when(repository.findAll()).thenReturn(List.of());
+
+            int result = service.count();
+
+            assertThat(result).isZero();
         }
     }
 }
