@@ -73,15 +73,25 @@ class AnimalSorterTest {
     @Test
     @DisplayName("sortByName: returns animals in alphabetical order")
     void shouldSortByNameAlphabetically() {
-        // TODO: Call sorter.sortByName with [buddy, luna, max, bella]
-        // TODO: Verify order is Bella, Buddy, Luna, Max
+        List<Animal> result = sorter.sortByName(List.of(buddy, luna, max, bella));
+
+        assertThat(result)
+                .extracting(Animal::getName)
+                .containsExactly("Bella", "Buddy", "Luna", "Max");
     }
 
     @Test
     @DisplayName("sortByName: is case-insensitive")
     void shouldSortNamesCaseInsensitively() {
-        // TODO: Create animals with mixed case names (e.g., "zebra", "Alpha")
-        // TODO: Verify alphabetical order ignores case
+        Animal zebra = new Animal("Zebra", "Horse", 4, true, LocalDate.of(2026, 1, 1));
+        Animal alpha = new Animal("alpha", "Dog", 2, true, LocalDate.of(2026, 1, 2));
+        Animal mango = new Animal("Mango", "Cat", 1, true, LocalDate.of(2026, 1, 3));
+
+        List<Animal> result = sorter.sortByName(List.of(zebra, alpha, mango));
+
+        assertThat(result)
+                .extracting(Animal::getName)
+                .containsExactly("alpha", "Mango", "Zebra");
     }
 
     // --- sortByIntakeDate ---
@@ -89,8 +99,11 @@ class AnimalSorterTest {
     @Test
     @DisplayName("sortByIntakeDate: returns animals from earliest to latest")
     void shouldSortByIntakeDateAscending() {
-        // TODO: Call sorter.sortByIntakeDate with [buddy, luna, max, bella]
-        // TODO: Verify order by date: bella (Jan 5), luna (Jan 10), buddy (Jan 15), max (Jan 20)
+        List<Animal> result = sorter.sortByIntakeDate(List.of(buddy, luna, max, bella));
+
+        assertThat(result)
+                .extracting(Animal::getName)
+                .containsExactly("Bella", "Luna", "Buddy", "Max");
     }
 
     // --- sortBySpeciesThenAgeDescending ---
@@ -98,8 +111,10 @@ class AnimalSorterTest {
     @Test
     @DisplayName("sortBySpeciesThenAgeDescending: groups by species then orders by age desc")
     void shouldSortBySpeciesThenAgeDesc() {
-        // TODO: Call sorter.sortBySpeciesThenAgeDescending with [buddy, luna, max, bella]
-        // TODO: Expected order: Cat group (Luna age 2, Bella age 1), Dog group (Max age 5, Buddy age 3)
-        // TODO: Verify with extracting(Animal::getName).containsExactly(...)
+        List<Animal> result = sorter.sortBySpeciesThenAgeDescending(List.of(buddy, luna, max, bella));
+
+        assertThat(result)
+                .extracting(Animal::getName)
+                .containsExactly("Luna", "Bella", "Max", "Buddy");
     }
 }
