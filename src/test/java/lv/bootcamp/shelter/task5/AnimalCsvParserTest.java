@@ -65,55 +65,62 @@ class AnimalCsvParserTest {
 
     @Nested
     @DisplayName("When parsing malformed rows")
-    class MalformedRows {
+    class MalformedRowsTests {
 
         @Test
         @DisplayName("returns empty for null input")
         void shouldReturnEmptyForNull() {
-            // TODO: Call parser.parseRow(null)
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow(null);
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty for blank input")
         void shouldReturnEmptyForBlank() {
-            // TODO: Call parser.parseRow("   ")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow("   ");
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty when row has fewer than 5 fields")
         void shouldReturnEmptyForTooFewFields() {
-            // TODO: Call parser.parseRow("Buddy,Dog,3")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow("Buddy,Dog,3");
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty when name is missing")
         void shouldReturnEmptyForMissingName() {
-            // TODO: Call parser.parseRow(",Dog,3,true,2026-01-15")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow(",Dog,3,true,2026-01-15");
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty when age is not a number")
         void shouldReturnEmptyForBadAge() {
-            // TODO: Call parser.parseRow("Buddy,Dog,old,true,2026-01-15")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow("Buddy,Dog,old,true,2026-01-15");
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty when age is negative")
         void shouldReturnEmptyForNegativeAge() {
-            // TODO: Call parser.parseRow("Buddy,Dog,-1,true,2026-01-15")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow("Buddy,Dog,-1,true,2026-01-15");
+
+            assertThat(result).isEmpty();
         }
 
         @Test
         @DisplayName("returns empty when date is invalid")
         void shouldReturnEmptyForBadDate() {
-            // TODO: Call parser.parseRow("Buddy,Dog,3,true,not-a-date")
-            // TODO: Assert result isEmpty()
+            Optional<Animal> result = parser.parseRow("Buddy,Dog,3,true,not-a-date");
+
+            assertThat(result).isEmpty();
         }
     }
 
