@@ -1,0 +1,25 @@
+Task 8 - Coverage check
+
+Overall coverage (IntelliJ, all tests): line 61%, branch 63%.
+AnimalSorter: line 85%, branch 62% (5 of 8 branches covered).
+
+Untested branch 1: AnimalSorter.sortByName, null check at line 31
+(if animals == null, return an empty list). The coverage popup shows
+"Hits: 0" for the return statement at line 32. No test passes null here.
+Would a test catch a real bug? Yes. If this check were removed,
+sortByName(null) would throw a NullPointerException and no test would fail.
+sortByAge already has a null test, so the sorters are inconsistent.
+
+Untested branch 2: AnimalSorter.sortByIntakeDate, null check at line 43
+(if animals == null, return an empty list). The popup shows
+"true hits: 0, false hits: 1", so only the normal case was tested.
+Would a test catch a real bug? Yes. Same risk as above: a missing null
+check would only show up when the application runs.
+
+Same gap: sortBySpeciesThenAgeDescending, line 55, return at line 56.
+
+Other gaps: AnimalReportWriter has 0% coverage because its tests are still
+empty. The model package has low branch coverage (3%).
+
+Conclusion: the gaps in AnimalSorter are real and cheap to fix with three
+small null-input tests. AnimalReportWriter needs its tests written.
