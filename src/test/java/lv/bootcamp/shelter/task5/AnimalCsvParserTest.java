@@ -126,20 +126,24 @@ class AnimalCsvParserTest {
 
     @Nested
     @DisplayName("When handling edge cases")
-    class EdgeCases {
+    class EdgeCasesTests {
 
         @Test
         @DisplayName("handles vaccinated field as any non-true string → false")
         void shouldTreatNonTrueAsFalse() {
-            // TODO: Parse a row with vaccinated="maybe"
-            // TODO: Assert isVaccinated() returns false (Boolean.parseBoolean behavior)
+            Optional<Animal> result = parser.parseRow("Buddy,Dog,3,maybe,2026-01-15");
+
+            assertThat(result).isPresent();
+            assertThat(result.get().isVaccinated()).isFalse();
         }
 
         @Test
         @DisplayName("handles age 0 as valid")
         void shouldAcceptAgeZero() {
-            // TODO: Parse a row with age=0
-            // TODO: Assert result isPresent() and age is 0
+            Optional<Animal> result = parser.parseRow("Puppy,Dog,0,true,2026-01-15");
+
+            assertThat(result).isPresent();
+            assertThat(result.get().getAge()).isZero();
         }
     }
 
