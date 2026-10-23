@@ -10,20 +10,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
-/**
- * Task 7: Mocking a dependency
- *
- * Practice:
- * - @Mock and @InjectMocks
- * - when(...).thenReturn(...)
- * - verify(...) and verify(..., never())
- * - Testing with mocked dependencies
- *
- * Instructions:
- * Write tests for IntakeService. The AnimalRepository is mocked — you control what it returns.
- * Focus on verifying that IntakeService calls the repository correctly.
- */
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("IntakeService")
 class IntakeServiceTest {
@@ -45,28 +38,30 @@ class IntakeServiceTest {
         @Test
         @DisplayName("saves valid animal and returns it")
         void shouldSaveValidAnimal() {
-            // TODO: Stub repository.save(buddy) to return buddy
-            //   Hint: when(repository.save(buddy)).thenReturn(buddy);
-            // TODO: Call service.intake(buddy)
-            // TODO: Assert the returned animal has name "Buddy"
-            // TODO: Verify that repository.save(buddy) was called exactly once
+            when(repository.save(buddy)).thenReturn(buddy);
+
+            Animal result = service.intake(buddy);
+
+            assertThat(result.getName()).isEqualTo("Buddy");
+            verify(repository, times(1)).save(buddy);
         }
 
         @Test
         @DisplayName("throws for null animal without calling repository")
         void shouldThrowForNullAnimal() {
-            // TODO: Call service.intake(null)
-            // TODO: Assert it throws NullPointerException
-            // TODO: Verify that repository.save(any()) was NEVER called
+            assertThrows(NullPointerException.class, () -> service.intake(null));
+
+            verify(repository, never()).save(any());
         }
 
         @Test
         @DisplayName("throws for invalid animal without calling repository")
         void shouldThrowForInvalidAnimal() {
-            // TODO: Create an Animal with blank name
-            //   Animal invalid = new Animal("", "Dog", 3, true, LocalDate.now());
-            // TODO: Assert that service.intake(invalid) throws IllegalArgumentException
-            // TODO: Verify that repository.save(any()) was NEVER called
+            Animal invalid = new Animal("", "Dog", 3, true, LocalDate.now());
+
+            assertThrows(IllegalArgumentException.class, () -> service.intake(invalid));
+
+            verify(repository, never()).save(any());
         }
     }
 
@@ -79,25 +74,30 @@ class IntakeServiceTest {
         @Test
         @DisplayName("returns animal when repository finds it")
         void shouldReturnAnimalWhenFound() {
-            // TODO: Stub repository.findByName("Buddy") to return Optional.of(buddy)
-            // TODO: Call service.findByName("Buddy")
-            // TODO: Assert result is not null and name equals "Buddy"
+            when(repository.findByName("Buddy")).thenReturn(Optional.of(buddy));
+
+            Animal result = service.findByName("Buddy");
+
+            assertThat(result).isNotNull();
+            assertThat(result.getName()).isEqualTo("Buddy");
         }
 
         @Test
         @DisplayName("returns null when repository does not find it")
         void shouldReturnNullWhenNotFound() {
-            // TODO: Stub repository.findByName("Ghost") to return Optional.empty()
-            // TODO: Call service.findByName("Ghost")
-            // TODO: Assert result is null
+            when(repository.findByName("Ghost")).thenReturn(Optional.empty());
+
+            Animal result = service.findByName("Ghost");
+
+            assertThat(result).isNull();
         }
 
         @Test
         @DisplayName("throws for blank name without calling repository")
         void shouldThrowForBlankName() {
-            // TODO: Call service.findByName("")
-            // TODO: Assert it throws IllegalArgumentException
-            // TODO: Verify repository.findByName(any()) was NEVER called
+            assertThrows(IllegalArgumentException.class, () -> service.findByName(""));
+
+            verify(repository, never()).findByName(any());
         }
     }
 
