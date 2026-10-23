@@ -35,9 +35,11 @@ class AnimalSorterTest {
     @Test
     @DisplayName("sortByAge: returns animals ordered youngest to oldest")
     void shouldSortByAgeAscending() {
-        // TODO: Call sorter.sortByAge with [buddy, luna, max, bella]
-        // TODO: Use assertThat(result).extracting(Animal::getName)
-        //       .containsExactly("Bella", "Luna", "Buddy", "Max")
+        List<Animal> result = sorter.sortByAge(List.of(buddy, luna, max, bella));
+
+        assertThat(result)
+                .extracting(Animal::getName)
+                .containsExactly("Bella", "Luna", "Buddy", "Max");
     }
 
     @Test
